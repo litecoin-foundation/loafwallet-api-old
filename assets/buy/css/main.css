@@ -1,0 +1,8 @@
+.top-div {
+  background: linear-gradient(to right, #83afe0, #767ee3);
+  height: 330px;
+}
+
+.bottom-div {
+  height: auto;
+}

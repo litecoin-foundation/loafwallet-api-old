@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>api.loafwallet.org/buy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/buy/css/main.css">
+</head>
+
+<body>
+  <div class="container-fluid top-div">
+    <!--navbar-->
+    <nav class="navbar navbar-light">
+      <a class="navbar-brand" href="close">✖️</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link introduction navbar-text" href="#">(?)</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="col">
+      <h2>Buy Litecoin</h2>
+    </div>
+  </div>
+
+  <div class="container-fluid bottom-div">
+    <div class="col">
+      <p style="padding-top: 15px;">
+        Press the button below to purchase Litecoin. This service is provided by Coinbase.com. If any issues arise with the Buy Tool, please contact
+        <a href="mailto:support@coinbase.com">support@coinbase.com</a>.
+      </p>
+    </div>
+    <hr>
+    <div class="col">
+      <a class="coinbase-widget" id="coinbase_widget" data-address="" data-amount="5" data-code="58a81dde-3bb2-56b7-998c-b28e7d500e25" data-currency="" data-crypto_currency="LTC" href="">Buy Litecoin with Coinbase</a></p>
+    </div>
+  </div>
+
+  <!--buy-tool-->
+
+  <script type='text/javascript' id='coinbase_widget_loader' class='coinbase-widget-async-loader'>
+		document.currentScript.src = '';
+		(function() {
+			function asyncLoad() {
+				var s = document.createElement('script');
+				s.type = 'text/javascript';
+				s.async = true;
+				var theUrl = "https://buy.coinbase.com/static/widget.js";
+				s.src = theUrl + (theUrl.indexOf("?") >= 0 ? '&' : '?') + 'ref=' + encodeURIComponent(window.location.href);
+				var embedder = document.getElementById('coinbase_widget_loader');
+				embedder.parentNode.insertBefore(s, embedder);
+			}
+			if (window.attachEvent) {
+				window.attachEvent('onload', asyncLoad);
+			} else {
+				window.addEventListener('load', asyncLoad, false);
+			}
+		})();
+	</script>
+
+	<script>
+		function receiveMessage(event) {
+			if (event.origin !== "https://buy.coinbase.com")
+				return;
+			var parsedData = event.data;
+			try {
+				var e = parsedData.event;
+				if (e == "buy_canceled") {
+					document.getElementById('message').innerHTML = "Purchase cancelled.";
+				} else if (e == "buy_completed") {
+					document.getElementById('message').innerHTML =
+						"Purchase successful. It may take a few hours for your Litecoin to arrive if you purchased with a credit/debit card. ACH purchases may take 2-3 days. You will receive an email from Coinbase when your Litecoin arrives.";
+				}
+			} catch (err) {
+				alert(err.message);
+			}
+		}
+		function getParam(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+		try {
+			var loafAddress = getParam('address');
+			document.getElementById('coinbase_widget').setAttribute('data-address', loafAddress);
+		} catch (err) {
+			alert(err.message);
+		}
+		window.addEventListener("message", receiveMessage, false);
+	</script>
+
+  <!--pagejs-->
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

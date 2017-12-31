@@ -1,4 +1,4 @@
 {
-   "fee_per_kb": 200000,
-   "fee_per_kb_economy": 100000
+   "fee_per_kb": 800000,
+   "fee_per_kb_economy": 400000
 }
